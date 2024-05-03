@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "inz2",
-    "slug": "inz2",
+    "slug": "mynewhomie-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,10 +21,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "windowSoftInputMode": "adjustResize"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "93d0868f-8333-4132-9316-935f24e4715c"
+      }
+    },
+    "owner": "xneriousy"
   }
 }

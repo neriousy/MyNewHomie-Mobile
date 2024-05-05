@@ -1,4 +1,5 @@
 import React, {
+  MutableRefObject,
   createContext,
   useContext,
   useEffect,
@@ -43,10 +44,12 @@ export const UserContext = createContext<{
   state: UserContextType;
   dispatch: React.Dispatch<Action>;
   isLoading: boolean;
+  intervalRef: MutableRefObject<NodeJS.Timeout | undefined> | undefined;
 }>({
   state: initialState,
   dispatch: () => null,
   isLoading: false,
+  intervalRef: undefined,
 });
 
 // Funkcaj minipulująca stanem kontekstu zależnie od otrzymanej akcji
@@ -93,7 +96,7 @@ export function UserContextProvider({
 }) {
   const [state, dispatch] = useReducer(userReducer, initialState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const intervalRef = useRef();
+  const intervalRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
     (async () => {
@@ -118,18 +121,28 @@ export function UserContextProvider({
             dispatch(setPhotoAction(photo));
           }
 
-          setInterval(() => {
+          intervalRef.current = setInterval(() => {
             updateOnline(userInfo.username, state.token);
           }, 60000);
         }
 
         setIsLoading(false);
+      } else {
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+        }
       }
     })();
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
   }, [state.token]);
 
   return (
-    <UserContext.Provider value={{ state, dispatch, isLoading }}>
+    <UserContext.Provider value={{ state, dispatch, isLoading, intervalRef }}>
       {children}
     </UserContext.Provider>
   );

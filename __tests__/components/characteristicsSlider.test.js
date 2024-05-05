@@ -6,7 +6,7 @@ import CharacteristicsSlider from '../../ui/characteristics/characteristics-slid
 describe('CharacteristicsSlider', () => {
   // Definicja danych testowych
   const name = 'Test Name';
-  const trait = 'testTrait';
+  const trait = 'hasPets';
   const value = 3;
   const marks = ['Low', 'High'];
 

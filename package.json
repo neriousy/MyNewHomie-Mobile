@@ -28,7 +28,8 @@
     "react-native-screens": "~3.29.0",
     "react-native-select-dropdown": "^4.0.1",
     "react-native-stompjs": "^0.0.7",
-    "sockjs-client": "^1.6.1"
+    "sockjs-client": "^1.6.1",
+    "expo-network": "~5.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

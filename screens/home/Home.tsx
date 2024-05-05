@@ -1,4 +1,4 @@
-// Ekran głowny po zalogowaniu
+// Komponent z ekranem głownym zaraz po zalogowaniu
 
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';

@@ -1,3 +1,5 @@
+// Interfejs umożliwiający konfiguracje cech użytkownika na ekranie 'characteristics'
+
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Checkbox, Text } from 'react-native-paper';
 

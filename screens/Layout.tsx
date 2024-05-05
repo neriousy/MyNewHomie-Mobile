@@ -11,12 +11,15 @@ import { useUserContext } from '../providers/user-provider/UserProvider';
 import Characteristics from './characteristics/Characteristics';
 import MyProfile from './my-profile/MyProfile';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { ActivityIndicator, Icon, Text } from 'react-native-paper';
+import { Icon, Text } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { signOutAction } from '../providers/user-provider/actions';
 import { MaterialIcons } from '@expo/vector-icons';
 import Search from './search/Search';
+import Chat from './chat/Chat';
+import ChatRoom from './chat-room/ChatRoom';
+import Loader from '../ui/shared/loader/Loader';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -25,6 +28,10 @@ export type RootStackParamList = {
   Characteristics: undefined;
   MyProfile: undefined;
   Search: undefined;
+  Chat: undefined;
+  ChatRoom: {
+    id: number;
+  };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -35,11 +42,7 @@ export default function Layout() {
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   if (isLoading) {
-    return (
-      <View style={styles.container}>
-        <ActivityIndicator />
-      </View>
-    );
+    return <Loader />;
   }
 
   return (
@@ -74,7 +77,7 @@ export default function Layout() {
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity
-                      onPress={() => navigation.navigate('Home')}
+                      onPress={() => navigation.navigate('Chat')}
                     >
                       <View style={styles.rowContainer}>
                         <Ionicons
@@ -136,6 +139,22 @@ export default function Layout() {
             component={Search}
             options={{
               headerTitle: 'Wyszukiwarka',
+            }}
+          />
+
+          <Stack.Screen
+            name="Chat"
+            component={Chat}
+            options={{
+              headerTitle: 'Czat',
+            }}
+          />
+
+          <Stack.Screen
+            name="ChatRoom"
+            component={ChatRoom}
+            options={{
+              headerTitle: 'Rozmowa',
             }}
           />
         </>

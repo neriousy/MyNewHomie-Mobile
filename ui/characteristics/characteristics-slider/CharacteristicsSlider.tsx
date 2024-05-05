@@ -1,3 +1,5 @@
+// Customowy komponent slider
+
 import Slider from '@react-native-community/slider';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
@@ -23,9 +25,12 @@ export default function CharacteristicsSlider({
     <View style={styles.container}>
       <Text style={styles.headerText}>{name}</Text>
       <Slider
+        testID="slider"
         step={1}
         value={value}
-        onValueChange={setValue ? (value) => setValue(value, trait) : undefined}
+        onValueChange={
+          setValue && !disabled ? (value) => setValue(value, trait) : undefined
+        }
         minimumValue={1}
         maximumValue={5}
         disabled={disabled}

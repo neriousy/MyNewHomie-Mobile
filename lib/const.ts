@@ -1,3 +1,5 @@
+// Plik ze stałymi
+
 export const API_URL = 'https://my-new-homie-backend.herokuapp.com/api/v1/';
 export const SOCKET_URL = 'https://my-new-homie-backend.herokuapp.com/chat';
 export const CITIES = [
@@ -21,6 +23,18 @@ export const GENDERS = [
   },
   {
     title: 'Obojętnie',
+    value: 'O',
+  },
+];
+
+export const MY_GENDERS = [
+  { title: 'Mężczyzna', value: 'M' },
+  {
+    title: 'Kobieta',
+    value: 'K',
+  },
+  {
+    title: 'Inna',
     value: 'O',
   },
 ];

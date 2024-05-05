@@ -1,4 +1,4 @@
-// Logika do logowania się
+// Logika do rejestracji konta
 
 import { useState } from 'react';
 

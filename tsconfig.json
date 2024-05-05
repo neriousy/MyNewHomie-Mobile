@@ -1,3 +1,5 @@
+// Plik konfiguracyjny typescript'a
+
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {

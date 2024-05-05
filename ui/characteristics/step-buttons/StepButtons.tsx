@@ -1,3 +1,5 @@
+// Komponent z przyciskami pozwalające poruszanie się po ekranie charakterystyk oraz zapisanie ich kiedy jesteśmy na ostatnim tabie
+
 import { StyleSheet, View } from 'react-native';
 import { Button, Snackbar, Text } from 'react-native-paper';
 import { useTabIndex, useTabNavigation } from 'react-native-paper-tabs';

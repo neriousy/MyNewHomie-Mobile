@@ -1,4 +1,4 @@
-// Logika do zapisywania informacji o użytkowniku
+// Logika do przesłania nowego zdjęcia profilowego użytkownika
 
 import { useState } from 'react';
 import { FormStatus } from '../screens/types';
@@ -47,7 +47,6 @@ export default function useSavePhoto() {
         return false;
       }
     } catch (e) {
-      console.log(e);
       setMessage('Wystąpił błąd');
       setStatus('error');
       return false;

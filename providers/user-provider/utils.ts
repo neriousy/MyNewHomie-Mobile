@@ -1,7 +1,10 @@
+// Funkcje pomocniczne wykorzystywane w kontekście
+
 import { API_URL } from '../../lib/const';
 import { getBase64Url } from '../../lib/utilts';
 import { CharacteristicsType, UserInfo } from './types';
 
+// Pobieranie informacji o zalogowanym użytkowniku
 export const getUserInfo = async (token: string) => {
   const response = await fetch(API_URL + 'userInfo', {
     method: 'POST',
@@ -19,6 +22,8 @@ export const getUserInfo = async (token: string) => {
 
   return false;
 };
+
+// Pobieranie charakterystyk zalogowanego użytkownika
 
 export const getCharacteristics = async (id: number, token: string) => {
   const response = await fetch(API_URL + 'getUserChar', {
@@ -54,4 +59,17 @@ export const getPhoto = async (id: number, token: string) => {
   const base64 = await getBase64Url(blob);
 
   return `data:image/jpeg;base64,${base64}`;
+};
+
+export const updateOnline = async (email: string, token: string) => {
+  const response = await fetch(API_URL + 'activity', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+    },
+    body: email,
+  });
+
+  return response;
 };

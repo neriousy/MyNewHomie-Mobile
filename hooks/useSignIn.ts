@@ -15,6 +15,7 @@ interface TokenResponse {
 export default function useSignIn() {
   const [status, setStatus] = useState<FormStatus>('default');
   const { dispatch } = useUserContext();
+  const [message, setMessage] = useState<string>('');
 
   const signIn = async (data: LoginData) => {
     setStatus('loading');
@@ -36,23 +37,36 @@ export default function useSignIn() {
           })
         );
         setStatus('success');
+      } else if (response.status === 423) {
+        setStatus('error');
+        setMessage('Potwierdź adres email');
+      } else if (response.status === 403) {
+        setMessage('Podano niepoprawne dane logowania');
+        setStatus('error');
       } else {
+        setMessage('Wystąpił błąd');
         setStatus('error');
       }
     } catch {
+      setMessage('Wystąpił błąd');
+
       setStatus('error');
     }
   };
 
-  useEffect(() => {
-    signIn({
-      email: 'hejmowskifilip@gmail.com',
-      password: 'Spidmen123@',
-    });
-  }, []);
+  // useEffect(() => {
+  //   (() => {
+  //     signIn({
+  //       email: 'hejmowskifilip@gmail.com',
+  //       password: 'Spidmen123@',
+  //     });
+  //   })();
+  // });
 
   return {
     status,
     signIn,
+    setStatus,
+    message,
   };
 }

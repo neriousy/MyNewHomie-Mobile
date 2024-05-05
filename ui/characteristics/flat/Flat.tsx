@@ -1,3 +1,5 @@
+// Interfejs umożliwiający konfiguracje cech użytkownika opisujących mieszkanie na ekranie 'characteristics'
+
 import { StyleSheet, View } from 'react-native';
 import { Divider, RadioButton, Text } from 'react-native-paper';
 

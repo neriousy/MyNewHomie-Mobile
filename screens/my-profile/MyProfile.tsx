@@ -1,3 +1,5 @@
+// Komponent z formularzem do zmiany danych użytkownika
+
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 import {
@@ -21,6 +23,8 @@ import useSaveUserInfo from '../../hooks/useSaveUserInfo';
 import { useUserContext } from '../../providers/user-provider/UserProvider';
 import { setPhotoAction } from '../../providers/user-provider/actions';
 import { UserInfo } from '../../providers/user-provider/types';
+import SelectDropdown from 'react-native-select-dropdown';
+import { GENDERS, MY_GENDERS } from '../../lib/const';
 
 export default function MyProfile() {
   const { state, dispatch } = useUserContext();
@@ -100,31 +104,77 @@ export default function MyProfile() {
         )}
       </TouchableOpacity>
       <TextInput
+        mode="outlined"
         label="Imie"
         value={userInfo.firstname}
         onChangeText={(value) => handleUserInfoChange(value, 'firstname')}
       />
 
       <TextInput
+        mode="outlined"
         label="Nazwisko"
         value={userInfo.lastname}
         onChangeText={(value) => handleUserInfoChange(value, 'lastname')}
       />
 
       <TextInput
+        mode="outlined"
         label="Numer telefonu"
         keyboardType="numeric"
         value={userInfo.phonenumber}
         onChangeText={(value) => handleUserInfoChange(value, 'phonenumber')}
       />
-      <TextInput
-        label="Wiek"
-        keyboardType="numeric"
-        value={userInfo.age.toString()}
-        onChangeText={(value) => handleUserInfoChange(value, 'age')}
-      />
+
+      <View style={styles.row}>
+        <TextInput
+          mode="outlined"
+          label="Wiek"
+          keyboardType="numeric"
+          value={userInfo.age.toString()}
+          onChangeText={(value) => handleUserInfoChange(value, 'age')}
+        />
+
+        <View style={{ flexGrow: 1 }}>
+          <Text variant="labelSmall"> Płeć</Text>
+          <SelectDropdown
+            data={MY_GENDERS}
+            defaultValue={{
+              title: 'Inna',
+              value: 'O',
+            }}
+            onSelect={(selectedItem) =>
+              handleUserInfoChange(selectedItem.value, 'gender')
+            }
+            renderButton={(selectedItem, isOpened) => {
+              return (
+                <View style={styles.dropdownButtonStyle}>
+                  <Text style={styles.dropdownButtonTxtStyle}>
+                    {(selectedItem && selectedItem.title) ||
+                      'Wybierz preferowaną płeć współlokatora'}
+                  </Text>
+                </View>
+              );
+            }}
+            renderItem={(item, index, isSelected) => {
+              return (
+                <View
+                  style={{
+                    ...styles.dropdownItemStyle,
+                    ...(isSelected && { backgroundColor: '#c9c9c9' }),
+                  }}
+                >
+                  <Text style={styles.dropdownItemTxtStyle}>{item.title}</Text>
+                </View>
+              );
+            }}
+            showsVerticalScrollIndicator={false}
+            dropdownStyle={styles.dropdownMenuStyle}
+          />
+        </View>
+      </View>
 
       <TextInput
+        mode="outlined"
         label="Opisz się"
         value={userInfo.description}
         multiline
@@ -213,5 +263,53 @@ const styles = StyleSheet.create({
   photoContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  dropdownButtonStyle: {
+    flexGrow: 1,
+    height: 50,
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderBlockColor: '#c9c9c9',
+    borderRadius: 4,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+  },
+  dropdownButtonTxtStyle: {
+    flex: 1,
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#151E26',
+  },
+  dropdownButtonArrowStyle: {
+    fontSize: 28,
+  },
+  dropdownButtonIconStyle: {
+    fontSize: 28,
+    marginRight: 8,
+  },
+  dropdownMenuStyle: {
+    backgroundColor: '#f0f0f0',
+    borderRadius: 8,
+  },
+  dropdownItemStyle: {
+    width: '100%',
+    flexDirection: 'row',
+    paddingHorizontal: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 8,
+  },
+  dropdownItemTxtStyle: {
+    flex: 1,
+    fontSize: 18,
+    fontWeight: '500',
+    color: '#151E26',
+  },
+  dropdownItemIconStyle: {
+    fontSize: 28,
+    marginRight: 8,
   },
 });

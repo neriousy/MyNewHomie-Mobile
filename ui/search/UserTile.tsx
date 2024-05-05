@@ -1,3 +1,5 @@
+// Komponent kafelek który jest pojedynczym wynikiem wyszukiwania
+
 import { Ionicons } from '@expo/vector-icons';
 import { Image, StyleSheet, View } from 'react-native';
 import { Badge, Button, Divider, Text } from 'react-native-paper';

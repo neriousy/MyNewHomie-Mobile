@@ -1,3 +1,5 @@
+// Komponent zawierający interfejs do konfiguracji preferencji w ekranie 'characteristics'
+
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Checkbox, Text } from 'react-native-paper';
 import SelectDropdown from 'react-native-select-dropdown';

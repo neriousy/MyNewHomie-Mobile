@@ -1,3 +1,5 @@
+// Dodatkowe komponenty wyświetlające się kiedy użytkownik ma mieszkanie
+
 import { StyleSheet, View } from 'react-native';
 import { Divider, RadioButton, Text } from 'react-native-paper';
 import SelectDropdown from 'react-native-select-dropdown';

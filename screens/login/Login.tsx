@@ -4,7 +4,7 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { LoginData } from './types';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button, Text, TextInput } from 'react-native-paper';
+import { Button, Snackbar, Text, TextInput } from 'react-native-paper';
 import { RootStackParamList } from '../Layout';
 import useSignIn from '../../hooks/useSignIn';
 
@@ -13,7 +13,7 @@ import useSignIn from '../../hooks/useSignIn';
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 export default function Login({ navigation }: Props) {
-  const { signIn, status } = useSignIn();
+  const { signIn, status, setStatus, message } = useSignIn();
   const [loginData, setLoginData] = useState<LoginData>({
     email: '',
     password: '',
@@ -39,11 +39,13 @@ export default function Login({ navigation }: Props) {
       <Text variant="displayMedium">My new homie</Text>
 
       <TextInput
+        mode="outlined"
         label={'E-mail'}
         style={styles.input}
         onChangeText={(value) => handleDataChange(value, 'email')}
       />
       <TextInput
+        mode="outlined"
         label="Hasło"
         secureTextEntry={true}
         style={styles.input}
@@ -61,6 +63,28 @@ export default function Login({ navigation }: Props) {
       <TouchableOpacity onPress={() => navigation.navigate('Register')}>
         <Text style={styles.link}>Nie masz konta? Zarejestuj się.</Text>
       </TouchableOpacity>
+
+      <Snackbar
+        visible={status === 'error' || status === 'success'}
+        onDismiss={() => setStatus('default')}
+        action={{
+          label: 'Schowaj',
+          onPress: () => {
+            setStatus('default');
+          },
+        }}
+        style={{ alignSelf: 'center', width: '100%' }}
+      >
+        {(status === 'error' || status === 'success') && (
+          <Text
+            style={{
+              color: 'white',
+            }}
+          >
+            {message}
+          </Text>
+        )}
+      </Snackbar>
 
       <StatusBar style="auto" />
     </SafeAreaView>

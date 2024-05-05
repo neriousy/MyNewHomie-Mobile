@@ -1,3 +1,5 @@
+// Komponent wyświetlające ogólne informacje wyszukanego użytkownika
+
 import { Image, StyleSheet, View } from 'react-native';
 import { Badge, Button, List, MD3Colors, Text } from 'react-native-paper';
 
@@ -5,8 +7,10 @@ import { SpecificUserInfo } from '../../hooks/useGetSpecificUser';
 
 export default function UserGeneralInformation({
   data,
+  handleNewChat,
 }: {
   data: SpecificUserInfo;
+  handleNewChat: () => void;
 }) {
   return (
     <View style={styles.userContainer}>
@@ -123,7 +127,11 @@ export default function UserGeneralInformation({
         <Text variant="bodyLarge"> Brak opisu</Text>
       )}
 
-      <Button mode="contained" style={{ alignSelf: 'center' }}>
+      <Button
+        mode="contained"
+        style={{ alignSelf: 'center' }}
+        onPress={() => handleNewChat()}
+      >
         Napisz do mnie
       </Button>
     </View>

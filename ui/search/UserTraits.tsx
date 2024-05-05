@@ -1,3 +1,5 @@
+// Komponent wyświetlający charakterystki wyszukanego użykownika
+
 import { StyleSheet, View } from 'react-native';
 
 import { SpecificUserInfo } from '../../hooks/useGetSpecificUser';

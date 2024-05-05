@@ -1,4 +1,6 @@
-import { useEffect } from 'react';
+// Modal wyświetlający szczegóły wyszukane użytkownika
+
+import { useCallback, useEffect } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Modal, Portal } from 'react-native-paper';
 import { TabScreen, Tabs, TabsProvider } from 'react-native-paper-tabs';
@@ -7,6 +9,11 @@ import UserFlat from './UserFlat';
 import UserGeneralInformation from './UserGeneralInformation';
 import UserTraits from './UserTraits';
 import useGetSpecificUser from '../../hooks/useGetSpecificUser';
+import { useChatContext } from '../../providers/chat-provider/ChatProvider';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../screens/Layout';
+import { newChatAction } from '../../providers/chat-provider/actions';
 
 export default function UserModal({
   visible,
@@ -22,10 +29,33 @@ export default function UserModal({
     flexGrow: 1,
   };
   const { getSpecificUser, data, status } = useGetSpecificUser();
+  const { dispatch } = useChatContext();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   useEffect(() => {
     getSpecificUser(userId);
   }, [userId]);
+
+  const handleNewChat = useCallback(() => {
+    console.log('hnadling');
+
+    if (data) {
+      dispatch(
+        newChatAction({
+          id: userId,
+          messages: [],
+          name: `${data?.searchDTO.firstname} ${data?.searchDTO.lastname}`,
+          online: data?.searchDTO.online,
+          photo: data?.searchDTO.photo,
+        })
+      );
+
+      onDismiss();
+
+      navigation.navigate('ChatRoom', { id: userId });
+    }
+  }, [data, userId]);
 
   return (
     <Portal>
@@ -60,7 +90,10 @@ export default function UserModal({
                     style={styles.scrollView}
                     contentContainerStyle={styles.container}
                   >
-                    <UserGeneralInformation data={data} />
+                    <UserGeneralInformation
+                      data={data}
+                      handleNewChat={handleNewChat}
+                    />
                   </ScrollView>
                 </TabScreen>
                 <TabScreen label="Cechy">

@@ -1,3 +1,5 @@
+// Informacje o preferencjach mieszkaniowych wyszukanego użytkownika
+
 import { StyleSheet, View } from 'react-native';
 import { List, MD3Colors } from 'react-native-paper';
 

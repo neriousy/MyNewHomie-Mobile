@@ -1,9 +1,6 @@
-import {
-  KeyboardAvoidingView,
-  ScrollView,
-  StyleSheet,
-  View,
-} from 'react-native';
+// Komponent umożliwiający konfiguracje charakterystyk zalogowanego użytkownika
+
+import { ScrollView, StyleSheet } from 'react-native';
 import { TabScreen, Tabs, TabsProvider } from 'react-native-paper-tabs';
 import { useUserContext } from '../../providers/user-provider/UserProvider';
 import { useState } from 'react';

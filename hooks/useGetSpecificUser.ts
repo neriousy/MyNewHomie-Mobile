@@ -1,3 +1,5 @@
+// Logika pobierające informacje o wyszukanym użytkowniku
+
 import { useState } from 'react';
 
 import { API_URL } from '../lib/const';
@@ -67,7 +69,6 @@ export default function useGetSpecificUser() {
       });
 
       if (response.ok) {
-        console.log('pobrane');
         setStatus('success');
         setData(await response.json());
       } else {

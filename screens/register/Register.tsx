@@ -68,6 +68,7 @@ export default function Register() {
           Formularz rejestracji
         </Text>
         <TextInput
+          mode="outlined"
           label="Imię"
           style={styles.input}
           value={registerData.firstname || ''}
@@ -78,6 +79,7 @@ export default function Register() {
           Imie nie może być puste
         </HelperText>
         <TextInput
+          mode="outlined"
           label="Nazwisko"
           style={styles.input}
           value={registerData.lastname || ''}
@@ -88,6 +90,7 @@ export default function Register() {
           Naziwsko nie może być puste
         </HelperText>
         <TextInput
+          mode="outlined"
           label="E-mail"
           style={styles.input}
           value={registerData.email || ''}
@@ -109,6 +112,7 @@ export default function Register() {
           Email musi być podany w formacie email@domena
         </HelperText>
         <TextInput
+          mode="outlined"
           label="Hasło"
           style={styles.input}
           value={registerData.password || ''}
@@ -119,6 +123,7 @@ export default function Register() {
           Hasło nie może być puste
         </HelperText>
         <TextInput
+          mode="outlined"
           label="Powtórz haslo"
           style={styles.input}
           value={registerData.repeatPassword || ''}
@@ -142,6 +147,7 @@ export default function Register() {
         </HelperText>
 
         <TextInput
+          mode="outlined"
           style={styles.input}
           value={registerData.age || ''}
           onChangeText={(value) => handleRegisterData(value, 'age')}
@@ -157,6 +163,7 @@ export default function Register() {
         </HelperText>
 
         <TextInput
+          mode="outlined"
           label="Numer telefonu"
           style={styles.input}
           value={registerData.phonenumber || ''}

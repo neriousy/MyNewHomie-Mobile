@@ -1,3 +1,5 @@
+// Dodatkowe komponenty wyświetlające się kiedy użytkownik nie ma mieszkania
+
 import { StyleSheet, View } from 'react-native';
 import { Divider, RadioButton, Text, TextInput } from 'react-native-paper';
 import SelectDropdown from 'react-native-select-dropdown';
@@ -111,6 +113,7 @@ export default function WithFlatOptions({
       <Text variant="labelLarge">Opis mieszkania</Text>
 
       <TextInput
+        mode="outlined"
         onChangeText={(value) => handleTraitChange(value, 'description')}
         placeholder="Opis mieszkania"
         multiline

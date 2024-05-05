@@ -3,6 +3,7 @@ import React, {
   useContext,
   useEffect,
   useReducer,
+  useRef,
   useState,
 } from 'react';
 
@@ -12,7 +13,12 @@ import {
   setUserInfoAction,
 } from './actions';
 import { Action, UserContextActionTypes, UserContextType } from './types';
-import { getCharacteristics, getPhoto, getUserInfo } from './utils';
+import {
+  getCharacteristics,
+  getPhoto,
+  getUserInfo,
+  updateOnline,
+} from './utils';
 
 // Kontekst zawierający informacje o zalogowanym użytkowniku
 
@@ -87,6 +93,7 @@ export function UserContextProvider({
 }) {
   const [state, dispatch] = useReducer(userReducer, initialState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const intervalRef = useRef();
 
   useEffect(() => {
     (async () => {
@@ -110,6 +117,10 @@ export function UserContextProvider({
           if (photo) {
             dispatch(setPhotoAction(photo));
           }
+
+          setInterval(() => {
+            updateOnline(userInfo.username, state.token);
+          }, 60000);
         }
 
         setIsLoading(false);

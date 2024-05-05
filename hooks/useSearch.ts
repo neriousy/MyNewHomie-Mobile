@@ -1,3 +1,5 @@
+// Logika do wyszukiwania użytkowników na ekranie 'Search'
+
 import { useState } from 'react';
 import { FormStatus } from '../screens/types';
 import { useUserContext } from '../providers/user-provider/UserProvider';

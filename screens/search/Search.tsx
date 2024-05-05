@@ -1,4 +1,4 @@
-// Ekran głowny po zalogowaniu
+// Komponent z wyszukiwarką użytkowników
 
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
@@ -95,6 +95,7 @@ export default function Search() {
 
       <View style={styles.row}>
         <TextInput
+          mode="outlined"
           style={styles.ageInput}
           inputMode="numeric"
           label="Wiek od"
@@ -102,6 +103,7 @@ export default function Search() {
         />
 
         <TextInput
+          mode="outlined"
           style={styles.ageInput}
           inputMode="numeric"
           label="Wiek do"
@@ -196,7 +198,7 @@ const styles = StyleSheet.create({
   dropdownButtonStyle: {
     width: '100%',
     height: 50,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#fff',
     borderWidth: 1,
     borderBlockColor: '#c9c9c9',
     borderRadius: 4,

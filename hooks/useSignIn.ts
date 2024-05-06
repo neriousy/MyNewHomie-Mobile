@@ -54,15 +54,6 @@ export default function useSignIn() {
     }
   };
 
-  // useEffect(() => {
-  //   (() => {
-  //     signIn({
-  //       email: 'hejmowskifilip@gmail.com',
-  //       password: 'Spidmen123@',
-  //     });
-  //   })();
-  // });
-
   return {
     status,
     signIn,

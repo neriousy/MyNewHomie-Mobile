@@ -5,7 +5,7 @@ import {
   useReducer,
   useState,
 } from 'react';
-import * as Stomp from 'react-native-stompjs';
+import 'text-encoding';
 import SockJS from 'sockjs-client';
 
 import { SOCKET_URL } from '../../lib/const';
@@ -20,6 +20,7 @@ import {
 } from './types';
 import { chatInitAction, newMessageAction, sendMessageAction } from './actions';
 import { EventManager } from '../../lib/event-handling/events';
+import { Client } from '@stomp/stompjs';
 
 const initialState: ChatContextType = {
   rooms: new Map<number, ChatRoom>(),
@@ -142,11 +143,9 @@ export function ChatContextProvider({
   const [isConnected, setIsConnected] =
     useState<ConnectionType>('disconnected');
   const { state: userState } = useUserContext();
-  const [client, setClient] = useState<Stomp.Client>();
-  let socketInstance;
-  let stompClient: Stomp.Client;
+  const [client, setClient] = useState<Client>();
 
-  const onConnected = (stompClient: Stomp.Client) => {
+  const onConnected = (stompClient: Client) => {
     setIsConnected('connected');
 
     stompClient.subscribe(`/user/${userState.userId}/private`, (message) => {
@@ -157,10 +156,6 @@ export function ChatContextProvider({
         }
       } catch {}
     });
-  };
-
-  const onError = () => {
-    setIsConnected('disconnected');
   };
 
   const { getChatMessages } = useGetChatMessages();
@@ -176,10 +171,17 @@ export function ChatContextProvider({
       (async () => {
         setIsLoading(true);
         setIsConnected('connecting');
-        socketInstance = new SockJS(SOCKET_URL);
-        stompClient = Stomp.over(socketInstance);
-        stompClient.connect({}, () => onConnected(stompClient), onError);
-        setClient(stompClient);
+        const client = new Client({
+          webSocketFactory: function () {
+            return new SockJS(SOCKET_URL);
+          },
+          connectHeaders: {},
+          onConnect: () => onConnected(client),
+          onDisconnect: () => setIsConnected('disconnected'),
+        });
+
+        setClient(client);
+        client.activate();
         await initChat(userState.userId);
 
         setIsLoading(false);
@@ -199,7 +201,11 @@ export function ChatContextProvider({
 
   const sendNewMessage = (message: SocketMessage) => {
     if (isConnected === 'connected' && client) {
-      client.send('/app/private-chat', {}, JSON.stringify(message));
+      client.publish({
+        destination: '/app/private-chat',
+        headers: {},
+        body: JSON.stringify(message),
+      });
       dispatch(sendMessageAction(message));
     }
   };

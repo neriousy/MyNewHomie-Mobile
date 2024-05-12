@@ -1,4 +1,4 @@
-// Komponent umożliwiający konfiguracje charakterystyk zalogowanego użytkownika
+// Komponent / ekran umożliwiający konfiguracje charakterystyk zalogowanego użytkownika
 
 import { ScrollView, StyleSheet } from 'react-native';
 import { TabScreen, Tabs, TabsProvider } from 'react-native-paper-tabs';
@@ -8,6 +8,7 @@ import { CharacteristicsType } from '../../providers/user-provider/types';
 import CharacteristicsTraits from '../../ui/characteristics/characteristics-traits/CharactertisticsTraits';
 import CharacteristicsPreferences from '../../ui/characteristics/characteristics-preferences/CharacteristicsPreferences';
 import Flat from '../../ui/characteristics/flat/Flat';
+import { KeyboardShift } from '../../ui/shared/keyboard-shift/KeyboardShift';
 
 export default function Characteristics() {
   const {
@@ -70,12 +71,14 @@ export default function Characteristics() {
           />
         </TabScreen>
         <TabScreen label="Mieszkanie">
-          <ScrollView
-            style={styles.scrollView}
-            contentContainerStyle={styles.container}
-          >
-            <Flat traits={traits} handleTraitChange={handleTraitChange} />
-          </ScrollView>
+          <KeyboardShift>
+            <ScrollView
+              style={styles.scrollView}
+              contentContainerStyle={styles.container}
+            >
+              <Flat traits={traits} handleTraitChange={handleTraitChange} />
+            </ScrollView>
+          </KeyboardShift>
         </TabScreen>
       </Tabs>
     </TabsProvider>

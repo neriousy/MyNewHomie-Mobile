@@ -25,6 +25,7 @@ import { setPhotoAction } from '../../providers/user-provider/actions';
 import { UserInfo } from '../../providers/user-provider/types';
 import SelectDropdown from 'react-native-select-dropdown';
 import { GENDERS, MY_GENDERS } from '../../lib/const';
+import { KeyboardShift } from '../../ui/shared/keyboard-shift/KeyboardShift';
 
 export default function MyProfile() {
   const { state, dispatch } = useUserContext();
@@ -77,149 +78,156 @@ export default function MyProfile() {
   };
 
   return (
-    <ScrollView
-      style={styles.scrollView}
-      contentContainerStyle={styles.container}
-    >
-      <Text variant="titleLarge">Mój profil</Text>
-      <Divider />
-      <TouchableOpacity onPress={handlePickImage} style={styles.photoContainer}>
-        {state?.photo ? (
-          <Image
-            source={{
-              uri: state.photo,
-            }}
-            style={styles.profilePicture}
-          />
-        ) : (
-          <>
-            <View style={styles.profilePicturePlaceholder}>
-              <Image
-                source={require('../../assets/temp-profile.png')}
-                style={styles.profilePicture}
-              />
-            </View>
-            <Text>Dodaj zdjęcie profilowe</Text>
-          </>
-        )}
-      </TouchableOpacity>
-      <TextInput
-        mode="outlined"
-        label="Imie"
-        value={userInfo.firstname}
-        onChangeText={(value) => handleUserInfoChange(value, 'firstname')}
-      />
-
-      <TextInput
-        mode="outlined"
-        label="Nazwisko"
-        value={userInfo.lastname}
-        onChangeText={(value) => handleUserInfoChange(value, 'lastname')}
-      />
-
-      <TextInput
-        mode="outlined"
-        label="Numer telefonu"
-        keyboardType="numeric"
-        value={userInfo.phonenumber}
-        onChangeText={(value) => handleUserInfoChange(value, 'phonenumber')}
-      />
-
-      <View style={styles.row}>
+    <KeyboardShift>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.container}
+      >
+        <Text variant="titleLarge">Mój profil</Text>
+        <Divider />
+        <TouchableOpacity
+          onPress={handlePickImage}
+          style={styles.photoContainer}
+        >
+          {state?.photo ? (
+            <Image
+              source={{
+                uri: state.photo,
+              }}
+              style={styles.profilePicture}
+            />
+          ) : (
+            <>
+              <View style={styles.profilePicturePlaceholder}>
+                <Image
+                  source={require('../../assets/temp-profile.png')}
+                  style={styles.profilePicture}
+                />
+              </View>
+              <Text>Dodaj zdjęcie profilowe</Text>
+            </>
+          )}
+        </TouchableOpacity>
         <TextInput
           mode="outlined"
-          label="Wiek"
-          keyboardType="numeric"
-          value={userInfo.age.toString()}
-          onChangeText={(value) => handleUserInfoChange(value, 'age')}
+          label="Imie"
+          value={userInfo.firstname}
+          onChangeText={(value) => handleUserInfoChange(value, 'firstname')}
         />
 
-        <View style={{ flexGrow: 1 }}>
-          <Text variant="labelSmall"> Płeć</Text>
-          <SelectDropdown
-            data={MY_GENDERS}
-            defaultValue={{
-              title: 'Inna',
-              value: 'O',
-            }}
-            onSelect={(selectedItem) =>
-              handleUserInfoChange(selectedItem.value, 'gender')
+        <TextInput
+          mode="outlined"
+          label="Nazwisko"
+          value={userInfo.lastname}
+          onChangeText={(value) => handleUserInfoChange(value, 'lastname')}
+        />
+
+        <TextInput
+          mode="outlined"
+          label="Numer telefonu"
+          keyboardType="numeric"
+          value={userInfo.phonenumber}
+          onChangeText={(value) => handleUserInfoChange(value, 'phonenumber')}
+        />
+
+        <View style={styles.row}>
+          <TextInput
+            mode="outlined"
+            label="Wiek"
+            keyboardType="numeric"
+            value={userInfo.age.toString()}
+            onChangeText={(value) => handleUserInfoChange(value, 'age')}
+          />
+
+          <View style={{ flexGrow: 1 }}>
+            <Text variant="labelSmall"> Płeć</Text>
+            <SelectDropdown
+              data={MY_GENDERS}
+              defaultValue={{
+                title: 'Inna',
+                value: 'O',
+              }}
+              onSelect={(selectedItem) =>
+                handleUserInfoChange(selectedItem.value, 'gender')
+              }
+              renderButton={(selectedItem, isOpened) => {
+                return (
+                  <View style={styles.dropdownButtonStyle}>
+                    <Text style={styles.dropdownButtonTxtStyle}>
+                      {(selectedItem && selectedItem.title) ||
+                        'Wybierz preferowaną płeć współlokatora'}
+                    </Text>
+                  </View>
+                );
+              }}
+              renderItem={(item, index, isSelected) => {
+                return (
+                  <View
+                    style={{
+                      ...styles.dropdownItemStyle,
+                      ...(isSelected && { backgroundColor: '#c9c9c9' }),
+                    }}
+                  >
+                    <Text style={styles.dropdownItemTxtStyle}>
+                      {item.title}
+                    </Text>
+                  </View>
+                );
+              }}
+              showsVerticalScrollIndicator={false}
+              dropdownStyle={styles.dropdownMenuStyle}
+            />
+          </View>
+        </View>
+
+        <TextInput
+          mode="outlined"
+          label="Opisz się"
+          value={userInfo.description}
+          multiline
+          numberOfLines={4}
+          onChangeText={(value) => handleUserInfoChange(value, 'description')}
+        />
+        <View style={styles.row}>
+          <Text>Nadal szukam współlokatora</Text>
+          <Checkbox
+            status={userInfo.still_looking === true ? 'checked' : 'unchecked'}
+            onPress={() =>
+              handleUserInfoChange(!userInfo.still_looking, 'still_looking')
             }
-            renderButton={(selectedItem, isOpened) => {
-              return (
-                <View style={styles.dropdownButtonStyle}>
-                  <Text style={styles.dropdownButtonTxtStyle}>
-                    {(selectedItem && selectedItem.title) ||
-                      'Wybierz preferowaną płeć współlokatora'}
-                  </Text>
-                </View>
-              );
-            }}
-            renderItem={(item, index, isSelected) => {
-              return (
-                <View
-                  style={{
-                    ...styles.dropdownItemStyle,
-                    ...(isSelected && { backgroundColor: '#c9c9c9' }),
-                  }}
-                >
-                  <Text style={styles.dropdownItemTxtStyle}>{item.title}</Text>
-                </View>
-              );
-            }}
-            showsVerticalScrollIndicator={false}
-            dropdownStyle={styles.dropdownMenuStyle}
           />
         </View>
-      </View>
+        <Button
+          mode="contained"
+          onPress={() => saveUserInfo(userInfo)}
+          disabled={status === 'loading'}
+        >
+          Zapisz zmiany
+        </Button>
 
-      <TextInput
-        mode="outlined"
-        label="Opisz się"
-        value={userInfo.description}
-        multiline
-        numberOfLines={4}
-        onChangeText={(value) => handleUserInfoChange(value, 'description')}
-      />
-      <View style={styles.row}>
-        <Text>Nadal szukam współlokatora</Text>
-        <Checkbox
-          status={userInfo.still_looking === true ? 'checked' : 'unchecked'}
-          onPress={() =>
-            handleUserInfoChange(!userInfo.still_looking, 'still_looking')
-          }
-        />
-      </View>
-      <Button
-        mode="contained"
-        onPress={() => saveUserInfo(userInfo)}
-        disabled={status === 'loading'}
-      >
-        Zapisz zmiany
-      </Button>
-
-      <Snackbar
-        visible={status === 'error' || status === 'success'}
-        onDismiss={() => setStatus('default')}
-        action={{
-          label: 'Schowaj',
-          onPress: () => {
-            setStatus('default');
-          },
-        }}
-        style={{ alignSelf: 'center', width: '100%' }}
-      >
-        {(status === 'error' || status === 'success') && (
-          <Text
-            style={{
-              color: 'white',
-            }}
-          >
-            {message}
-          </Text>
-        )}
-      </Snackbar>
-    </ScrollView>
+        <Snackbar
+          visible={status === 'error' || status === 'success'}
+          onDismiss={() => setStatus('default')}
+          action={{
+            label: 'Schowaj',
+            onPress: () => {
+              setStatus('default');
+            },
+          }}
+          style={{ alignSelf: 'center', width: '100%' }}
+        >
+          {(status === 'error' || status === 'success') && (
+            <Text
+              style={{
+                color: 'white',
+              }}
+            >
+              {message}
+            </Text>
+          )}
+        </Snackbar>
+      </ScrollView>
+    </KeyboardShift>
   );
 }
 

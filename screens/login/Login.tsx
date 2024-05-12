@@ -1,3 +1,5 @@
+// Ekran Logowania
+
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
@@ -7,8 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Snackbar, Text, TextInput } from 'react-native-paper';
 import { RootStackParamList } from '../Layout';
 import useSignIn from '../../hooks/useSignIn';
-
-// Ekran Logowania
+import { KeyboardShift } from '../../ui/shared/keyboard-shift/KeyboardShift';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -35,59 +36,61 @@ export default function Login({ navigation }: Props) {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text variant="displayMedium">My new homie</Text>
+    <KeyboardShift>
+      <SafeAreaView style={styles.container}>
+        <Text variant="displayMedium">My new homie</Text>
 
-      <TextInput
-        mode="outlined"
-        label={'E-mail'}
-        style={styles.input}
-        onChangeText={(value) => handleDataChange(value, 'email')}
-      />
-      <TextInput
-        mode="outlined"
-        label="Hasło"
-        secureTextEntry={true}
-        style={styles.input}
-        onChangeText={(value) => handleDataChange(value, 'password')}
-      />
+        <TextInput
+          mode="outlined"
+          label={'E-mail'}
+          style={styles.input}
+          onChangeText={(value) => handleDataChange(value, 'email')}
+        />
+        <TextInput
+          mode="outlined"
+          label="Hasło"
+          secureTextEntry={true}
+          style={styles.input}
+          onChangeText={(value) => handleDataChange(value, 'password')}
+        />
 
-      <Button
-        mode="contained"
-        onPress={() => handleSignIn(loginData)}
-        disabled={status === 'loading'}
-      >
-        Zaloguj się
-      </Button>
+        <Button
+          mode="contained"
+          onPress={() => handleSignIn(loginData)}
+          disabled={status === 'loading'}
+        >
+          Zaloguj się
+        </Button>
 
-      <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-        <Text style={styles.link}>Nie masz konta? Zarejestuj się.</Text>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+          <Text style={styles.link}>Nie masz konta? Zarejestuj się.</Text>
+        </TouchableOpacity>
 
-      <Snackbar
-        visible={status === 'error' || status === 'success'}
-        onDismiss={() => setStatus('default')}
-        action={{
-          label: 'Schowaj',
-          onPress: () => {
-            setStatus('default');
-          },
-        }}
-        style={{ alignSelf: 'center', width: '100%' }}
-      >
-        {(status === 'error' || status === 'success') && (
-          <Text
-            style={{
-              color: 'white',
-            }}
-          >
-            {message}
-          </Text>
-        )}
-      </Snackbar>
+        <Snackbar
+          visible={status === 'error' || status === 'success'}
+          onDismiss={() => setStatus('default')}
+          action={{
+            label: 'Schowaj',
+            onPress: () => {
+              setStatus('default');
+            },
+          }}
+          style={{ alignSelf: 'center', width: '100%' }}
+        >
+          {(status === 'error' || status === 'success') && (
+            <Text
+              style={{
+                color: 'white',
+              }}
+            >
+              {message}
+            </Text>
+          )}
+        </Snackbar>
 
-      <StatusBar style="auto" />
-    </SafeAreaView>
+        <StatusBar style="auto" />
+      </SafeAreaView>
+    </KeyboardShift>
   );
 }
 

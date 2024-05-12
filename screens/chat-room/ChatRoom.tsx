@@ -22,6 +22,7 @@ import {
 } from 'react-native-paper';
 import ChatMessage from '../../ui/chat/chat-message/ChatMessage';
 import { useUserContext } from '../../providers/user-provider/UserProvider';
+import { KeyboardShift } from '../../ui/shared/keyboard-shift/KeyboardShift';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ChatRoom'>;
 
@@ -105,90 +106,92 @@ export default function ChatRoom({ route }: Props) {
   }
 
   return (
-    <View
-      style={{
-        backgroundColor: '#fff',
-        height: '100%',
-        padding: 10,
-        gap: 5,
-      }}
-    >
-      <View style={styles.row}>
-        <View
-          style={{
-            width: 40,
-          }}
-        >
-          <Badge
-            theme={{
-              colors: { primary: room.online === true ? 'green' : 'red' },
-            }}
-            size={10}
+    <KeyboardShift>
+      <View
+        style={{
+          backgroundColor: '#fff',
+          height: '100%',
+          padding: 10,
+          gap: 5,
+        }}
+      >
+        <View style={styles.row}>
+          <View
             style={{
-              position: 'absolute',
-              bottom: 0,
-              zIndex: 2,
+              width: 40,
             }}
-          />
-          {room.photo ? (
-            <Image
-              source={{
-                uri: `data:image\\png;base64,${room.photo}`,
+          >
+            <Badge
+              theme={{
+                colors: { primary: room.online === true ? 'green' : 'red' },
               }}
-              style={styles.profilePicture}
+              size={10}
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                zIndex: 2,
+              }}
             />
-          ) : (
-            <Image
-              source={require('../../assets/temp-profile.png')}
-              style={styles.profilePicture}
-            />
-          )}
+            {room.photo ? (
+              <Image
+                source={{
+                  uri: `data:image\\png;base64,${room.photo}`,
+                }}
+                style={styles.profilePicture}
+              />
+            ) : (
+              <Image
+                source={require('../../assets/temp-profile.png')}
+                style={styles.profilePicture}
+              />
+            )}
+          </View>
+
+          <Text variant="labelLarge">{room.name}</Text>
         </View>
 
-        <Text variant="labelLarge">{room.name}</Text>
+        <Divider />
+
+        <ScrollView
+          ref={scrollViewRef}
+          onLayout={handleLayout}
+          style={styles.scrollView}
+          contentContainerStyle={styles.container}
+          onContentSizeChange={(w, h) => handleNewData(w, h)}
+          onScroll={(e) => setScrollPosition(e.nativeEvent.contentOffset.y)}
+        >
+          {room.messages.map((message, index) => {
+            return (
+              <ChatMessage
+                photo={room.photo}
+                message={message}
+                key={index}
+                isLastInRow={
+                  index === room.messages.length - 1 ||
+                  message.senderId !== room.messages[index + 1].senderId
+                }
+              />
+            );
+          })}
+          <StatusBar style="auto" />
+        </ScrollView>
+
+        <View style={styles.inputContainer}>
+          <TextInput
+            ref={inputRef}
+            mode="outlined"
+            style={{ flexGrow: 1 }}
+            value={input}
+            onChangeText={(e) => setInput(e)}
+          />
+          <IconButton
+            icon={'send-outline'}
+            mode="contained"
+            onPress={() => handleSendNewMessage(input)}
+          />
+        </View>
       </View>
-
-      <Divider />
-
-      <ScrollView
-        ref={scrollViewRef}
-        onLayout={handleLayout}
-        style={styles.scrollView}
-        contentContainerStyle={styles.container}
-        onContentSizeChange={(w, h) => handleNewData(w, h)}
-        onScroll={(e) => setScrollPosition(e.nativeEvent.contentOffset.y)}
-      >
-        {room.messages.map((message, index) => {
-          return (
-            <ChatMessage
-              photo={room.photo}
-              message={message}
-              key={index}
-              isLastInRow={
-                index === room.messages.length - 1 ||
-                message.senderId !== room.messages[index + 1].senderId
-              }
-            />
-          );
-        })}
-        <StatusBar style="auto" />
-      </ScrollView>
-
-      <View style={styles.inputContainer}>
-        <TextInput
-          ref={inputRef}
-          mode="outlined"
-          style={{ flexGrow: 1 }}
-          value={input}
-          onChangeText={(e) => setInput(e)}
-        />
-        <IconButton
-          icon={'send-outline'}
-          mode="contained"
-          onPress={() => handleSendNewMessage(input)}
-        />
-      </View>
-    </View>
+    </KeyboardShift>
   );
 }
 

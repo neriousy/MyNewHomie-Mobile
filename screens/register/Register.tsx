@@ -14,6 +14,7 @@ import {
 
 import { RegisterDataWithRepeatPassword } from './types';
 import useRegister from '../../hooks/useRegister';
+import { KeyboardShift } from '../../ui/shared/keyboard-shift/KeyboardShift';
 
 export default function Register() {
   const { register, status, setStatus, message } = useRegister();
@@ -59,203 +60,207 @@ export default function Register() {
   };
 
   return (
-    <ScrollView
-      style={styles.scrollView}
-      contentContainerStyle={styles.container}
-    >
-      <View style={styles.scrollView}>
-        <Text variant="titleMedium" style={styles.label}>
-          Formularz rejestracji
-        </Text>
-        <TextInput
-          mode="outlined"
-          label="Imię"
-          style={styles.input}
-          value={registerData.firstname || ''}
-          onChangeText={(value) => handleRegisterData(value, 'firstname')}
-          error={registerData.firstname === ''}
-        />
-        <HelperText type="error" visible={registerData.firstname === ''}>
-          Imie nie może być puste
-        </HelperText>
-        <TextInput
-          mode="outlined"
-          label="Nazwisko"
-          style={styles.input}
-          value={registerData.lastname || ''}
-          onChangeText={(value) => handleRegisterData(value, 'lastname')}
-          error={registerData.lastname === ''}
-        />
-        <HelperText type="error" visible={registerData.lastname === ''}>
-          Naziwsko nie może być puste
-        </HelperText>
-        <TextInput
-          mode="outlined"
-          label="E-mail"
-          style={styles.input}
-          value={registerData.email || ''}
-          onChangeText={(value) => handleRegisterData(value, 'email')}
-          error={
-            !!registerData.email &&
-            !registerData.email?.includes('@') &&
-            registerData.email?.length > 0
-          }
-        />
-        <HelperText
-          type="error"
-          visible={
-            !!registerData.email &&
-            !registerData.email?.includes('@') &&
-            registerData.email?.length > 0
-          }
-        >
-          Email musi być podany w formacie email@domena
-        </HelperText>
-        <TextInput
-          mode="outlined"
-          label="Hasło"
-          style={styles.input}
-          value={registerData.password || ''}
-          onChangeText={(value) => handleRegisterData(value, 'password')}
-          secureTextEntry
-        />
-        <HelperText type="error" visible={registerData.password === ''}>
-          Hasło nie może być puste
-        </HelperText>
-        <TextInput
-          mode="outlined"
-          label="Powtórz haslo"
-          style={styles.input}
-          value={registerData.repeatPassword || ''}
-          onChangeText={(value) => handleRegisterData(value, 'repeatPassword')}
-          secureTextEntry
-          error={
-            !!registerData.password &&
-            !!registerData.repeatPassword &&
-            registerData.password !== registerData.repeatPassword
-          }
-        />
-        <HelperText
-          type="error"
-          visible={
-            !!registerData.password &&
-            !!registerData.repeatPassword &&
-            registerData.password !== registerData.repeatPassword
-          }
-        >
-          Hasła muszą być takie same
-        </HelperText>
-
-        <TextInput
-          mode="outlined"
-          style={styles.input}
-          value={registerData.age || ''}
-          onChangeText={(value) => handleRegisterData(value, 'age')}
-          keyboardType="numeric"
-          label="Wiek"
-          error={!registerData.age && registerData.age !== null}
-        />
-        <HelperText
-          type="error"
-          visible={!registerData.age && registerData.age !== null}
-        >
-          Imie nie może być puste
-        </HelperText>
-
-        <TextInput
-          mode="outlined"
-          label="Numer telefonu"
-          style={styles.input}
-          value={registerData.phonenumber || ''}
-          onChangeText={(value) => handleRegisterData(value, 'phonenumber')}
-          keyboardType="numeric"
-          error={
-            registerData.phonenumber !== null &&
-            registerData.phonenumber.length !== 9
-          }
-        />
-        <HelperText
-          type="error"
-          visible={
-            registerData.phonenumber !== null &&
-            registerData.phonenumber.length !== 9
-          }
-        >
-          Numer telefonu musi mieć długość 9 znaków
-        </HelperText>
-
-        <Text variant="labelLarge" style={styles.label}>
-          Płeć
-        </Text>
-        <View style={styles.radioButtonContainer}>
-          <RadioButton
-            value="M"
-            status={registerData.gender === 'M' ? 'checked' : 'unchecked'}
-            onPress={() => handleRegisterData('M', 'gender')}
+    <KeyboardShift>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.container}
+      >
+        <View style={styles.scrollView}>
+          <Text variant="titleMedium" style={styles.label}>
+            Formularz rejestracji
+          </Text>
+          <TextInput
+            mode="outlined"
+            label="Imię"
+            style={styles.input}
+            value={registerData.firstname || ''}
+            onChangeText={(value) => handleRegisterData(value, 'firstname')}
+            error={registerData.firstname === ''}
           />
-          <Text>Mężczyzna</Text>
-        </View>
-
-        <View style={styles.radioButtonContainer}>
-          <RadioButton
-            value="M"
-            status={registerData.gender === 'K' ? 'checked' : 'unchecked'}
-            onPress={() => handleRegisterData('K', 'gender')}
+          <HelperText type="error" visible={registerData.firstname === ''}>
+            Imie nie może być puste
+          </HelperText>
+          <TextInput
+            mode="outlined"
+            label="Nazwisko"
+            style={styles.input}
+            value={registerData.lastname || ''}
+            onChangeText={(value) => handleRegisterData(value, 'lastname')}
+            error={registerData.lastname === ''}
           />
-          <Text>Kobieta</Text>
-        </View>
-
-        <View style={styles.radioButtonContainer}>
-          <RadioButton
-            value="M"
-            status={registerData.gender === 'O' ? 'checked' : 'unchecked'}
-            onPress={() => handleRegisterData('O', 'gender')}
+          <HelperText type="error" visible={registerData.lastname === ''}>
+            Naziwsko nie może być puste
+          </HelperText>
+          <TextInput
+            mode="outlined"
+            label="E-mail"
+            style={styles.input}
+            value={registerData.email || ''}
+            onChangeText={(value) => handleRegisterData(value, 'email')}
+            error={
+              !!registerData.email &&
+              !registerData.email?.includes('@') &&
+              registerData.email?.length > 0
+            }
           />
-          <Text>Inna</Text>
+          <HelperText
+            type="error"
+            visible={
+              !!registerData.email &&
+              !registerData.email?.includes('@') &&
+              registerData.email?.length > 0
+            }
+          >
+            Email musi być podany w formacie email@domena
+          </HelperText>
+          <TextInput
+            mode="outlined"
+            label="Hasło"
+            style={styles.input}
+            value={registerData.password || ''}
+            onChangeText={(value) => handleRegisterData(value, 'password')}
+            secureTextEntry
+          />
+          <HelperText type="error" visible={registerData.password === ''}>
+            Hasło nie może być puste
+          </HelperText>
+          <TextInput
+            mode="outlined"
+            label="Powtórz haslo"
+            style={styles.input}
+            value={registerData.repeatPassword || ''}
+            onChangeText={(value) =>
+              handleRegisterData(value, 'repeatPassword')
+            }
+            secureTextEntry
+            error={
+              !!registerData.password &&
+              !!registerData.repeatPassword &&
+              registerData.password !== registerData.repeatPassword
+            }
+          />
+          <HelperText
+            type="error"
+            visible={
+              !!registerData.password &&
+              !!registerData.repeatPassword &&
+              registerData.password !== registerData.repeatPassword
+            }
+          >
+            Hasła muszą być takie same
+          </HelperText>
+
+          <TextInput
+            mode="outlined"
+            style={styles.input}
+            value={registerData.age || ''}
+            onChangeText={(value) => handleRegisterData(value, 'age')}
+            keyboardType="numeric"
+            label="Wiek"
+            error={!registerData.age && registerData.age !== null}
+          />
+          <HelperText
+            type="error"
+            visible={!registerData.age && registerData.age !== null}
+          >
+            Imie nie może być puste
+          </HelperText>
+
+          <TextInput
+            mode="outlined"
+            label="Numer telefonu"
+            style={styles.input}
+            value={registerData.phonenumber || ''}
+            onChangeText={(value) => handleRegisterData(value, 'phonenumber')}
+            keyboardType="numeric"
+            error={
+              registerData.phonenumber !== null &&
+              registerData.phonenumber.length !== 9
+            }
+          />
+          <HelperText
+            type="error"
+            visible={
+              registerData.phonenumber !== null &&
+              registerData.phonenumber.length !== 9
+            }
+          >
+            Numer telefonu musi mieć długość 9 znaków
+          </HelperText>
+
+          <Text variant="labelLarge" style={styles.label}>
+            Płeć
+          </Text>
+          <View style={styles.radioButtonContainer}>
+            <RadioButton
+              value="M"
+              status={registerData.gender === 'M' ? 'checked' : 'unchecked'}
+              onPress={() => handleRegisterData('M', 'gender')}
+            />
+            <Text>Mężczyzna</Text>
+          </View>
+
+          <View style={styles.radioButtonContainer}>
+            <RadioButton
+              value="M"
+              status={registerData.gender === 'K' ? 'checked' : 'unchecked'}
+              onPress={() => handleRegisterData('K', 'gender')}
+            />
+            <Text>Kobieta</Text>
+          </View>
+
+          <View style={styles.radioButtonContainer}>
+            <RadioButton
+              value="M"
+              status={registerData.gender === 'O' ? 'checked' : 'unchecked'}
+              onPress={() => handleRegisterData('O', 'gender')}
+            />
+            <Text>Inna</Text>
+          </View>
+
+          <Button
+            mode="contained"
+            disabled={!isFormValid() || status === 'loading'}
+            onPress={() => handleRegister(registerData)}
+          >
+            Zarejestruj się
+          </Button>
+
+          <Snackbar
+            visible={status === 'error' || status === 'success'}
+            onDismiss={() => setStatus('default')}
+            action={{
+              label: 'Schowaj',
+              onPress: () => {
+                setStatus('default');
+              },
+            }}
+          >
+            {(status === 'error' || status === 'success') && (
+              <Text
+                style={{
+                  color: 'white',
+                }}
+              >
+                {message}
+              </Text>
+            )}
+          </Snackbar>
+          <StatusBar style="auto" />
         </View>
-
-        <Button
-          mode="contained"
-          disabled={!isFormValid() || status === 'loading'}
-          onPress={() => handleRegister(registerData)}
-        >
-          Zarejestruj się
-        </Button>
-
-        <Snackbar
-          visible={status === 'error' || status === 'success'}
-          onDismiss={() => setStatus('default')}
-          action={{
-            label: 'Schowaj',
-            onPress: () => {
-              setStatus('default');
-            },
-          }}
-        >
-          {(status === 'error' || status === 'success') && (
-            <Text
-              style={{
-                color: 'white',
-              }}
-            >
-              {message}
-            </Text>
-          )}
-        </Snackbar>
-        <StatusBar style="auto" />
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardShift>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
     backgroundColor: '#fff',
     padding: 20,
   },
   scrollView: {
-    flexGrow: 1,
+    flex: 1,
+
     width: '100%',
   },
   containerScrollView: {
